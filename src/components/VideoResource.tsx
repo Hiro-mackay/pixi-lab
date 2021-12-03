@@ -1,5 +1,6 @@
 import { Application, Texture, Sprite, BaseTexture, VideoResource, ImageResource } from 'pixi.js';
 import { ChangeEventHandler } from 'react';
+import { Viewer } from './Viewer';
 
 const loadVideoElement = async (file: File): Promise<HTMLVideoElement> => {
   const refURL = URL.createObjectURL(file);
@@ -39,7 +40,7 @@ const createSprite = async (file: File) => {
   }
 };
 
-const Pixi = () => {
+const Component = () => {
   const app = new Application({ width: 1240, height: 720, backgroundColor: 0x333333 });
 
   const sleectedFile: ChangeEventHandler<HTMLInputElement> = (ev) => {
@@ -62,13 +63,9 @@ const Pixi = () => {
       <div>
         <input type="file" onChange={sleectedFile} />
       </div>
-      <div
-        ref={(node) => {
-          node?.appendChild(app.view);
-        }}
-      ></div>
+      <Viewer app={app} />
     </>
   );
 };
 
-export default Pixi;
+export default Component;
