@@ -1,57 +1,20 @@
-import { Application, Texture, Sprite, BaseTexture, VideoResource, ImageResource } from 'pixi.js';
+import { Application, Sprite, BaseTexture } from 'pixi.js';
 import { ChangeEventHandler } from 'react';
+import { useGenerateVideoResource } from '../hooks/LoadAsset/GenerateElement/VideoResource';
 import { Viewer } from './Viewer';
-
-const loadVideoElement = async (file: File): Promise<HTMLVideoElement> => {
-  const refURL = URL.createObjectURL(file);
-  const element = document.createElement('video');
-  element.src = refURL;
-  element.crossOrigin = 'anonymous';
-
-  return new Promise((resolve, reject) => {
-    element.onloadeddata = () => {
-      resolve(element);
-    };
-  });
-};
-
-const loadTexture = async (file: File) => {
-  const ref = URL.createObjectURL(file);
-
-  const R = new VideoResource([{ src: ref, mime: file.type }], { autoLoad: false, autoPlay: false });
-
-  const base = new BaseTexture(R);
-  const texture = Texture.from(base);
-
-  console.log(texture);
-
-  console.log(R.source);
-
-  return R.load().then(() => Promise.resolve(texture));
-};
-
-const createSprite = async (file: File) => {
-  try {
-    const texture = await loadTexture(file);
-    console.log(texture);
-    return Sprite.from(texture);
-  } catch (error) {
-    throw error;
-  }
-};
 
 const Component = () => {
   const app = new Application({ width: 1240, height: 720, backgroundColor: 0x333333 });
+  const videoResourceGenerator = useGenerateVideoResource();
 
-  const sleectedFile: ChangeEventHandler<HTMLInputElement> = (ev) => {
+  const sleectedFile: ChangeEventHandler<HTMLInputElement> = async (ev) => {
     if (ev.target.files?.length) {
       try {
-        createSprite(ev.target.files[0])
-          .then((sprite) => {
-            app.stage.addChild(sprite);
-            console.log(sprite);
-          })
-          .catch(console.error);
+        const resource = await videoResourceGenerator(ev.target.files[0]);
+        // const imageResource = await imageResourceGenerator(ev.target.files[0])
+        const baseTexture = new BaseTexture(resource);
+        const sprite = Sprite.from(baseTexture);
+        app.stage.addChild(sprite);
       } catch (error) {
         console.error(error);
       }
