@@ -1,6 +1,6 @@
 import { Application, Sprite, BaseTexture } from 'pixi.js';
 import { ChangeEventHandler } from 'react';
-import { useGenerateVideoResource } from '../hooks/LoadAsset/GenerateElement/VideoResource';
+import { useGenerateVideoResource } from '../hooks/GenerateElement/VideoResource';
 import { Viewer } from './Viewer';
 
 const Component = () => {
@@ -11,7 +11,6 @@ const Component = () => {
     if (ev.target.files?.length) {
       try {
         const resource = await videoResourceGenerator(ev.target.files[0]);
-        // const imageResource = await imageResourceGenerator(ev.target.files[0])
         const baseTexture = new BaseTexture(resource);
         const sprite = Sprite.from(baseTexture);
         app.stage.addChild(sprite);

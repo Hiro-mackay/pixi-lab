@@ -9,9 +9,6 @@ const Component = () => {
   const bezier = new Graphics();
   bezier.lineStyle(5, 0xaa0000, 1, 0);
 
-  const scaleX = 3;
-  const scaleY = 3;
-
   shape.addChild(bezier);
 
   const base = 50;
@@ -118,43 +115,7 @@ const Component = () => {
     _next.PathY - baseY
   );
 
-  // LemData to DrawData ()
-
-  // bezier.position.x = 0; //baseX
-  // bezier.position.y = base * scaleY;
-
-  // bezier.bezierCurveTo(
-  //   0,
-  //   -deltaBezeir * scaleY,
-  //   (base - deltaBezeir) * scaleX,
-  //   -base * scaleY,
-  //   base * scaleX,
-  //   -base * scaleY
-  // );
-
-  // bezier.bezierCurveTo(
-  //   (base + deltaBezeir) * scaleX,
-  //   -base * scaleY,
-  //   base * 2 * scaleX,
-  //   -deltaBezeir * scaleY,
-  //   base * 2 * scaleX,
-  //   0
-  // );
-
-  // bezier.bezierCurveTo(
-  //   base * 2 * scaleX,
-  //   deltaBezeir * scaleY,
-  //   (base + deltaBezeir) * scaleX,
-  //   base * scaleY,
-  //   base * scaleX,
-  //   base * scaleY
-  // );
-
-  // bezier.bezierCurveTo((base - deltaBezeir) * scaleX, base * scaleY, 0, deltaBezeir * scaleY, 0, 0);
-
   app.stage.addChild(shape);
-
-  console.log(shape.position.x, shape.position.y);
 
   return <Viewer app={app} />;
 };
