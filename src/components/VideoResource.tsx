@@ -3,6 +3,8 @@ import { ChangeEventHandler } from 'react';
 import { useGenerateVideoResource } from '../hooks/GenerateElement/VideoResource';
 import { Viewer } from './Viewer';
 
+let position = 0;
+
 const Component = () => {
   const app = new Application({ width: 1240, height: 720, backgroundColor: 0x333333 });
   const videoResourceGenerator = useGenerateVideoResource();
@@ -13,7 +15,10 @@ const Component = () => {
         const resource = await videoResourceGenerator(ev.target.files[0]);
         const baseTexture = new BaseTexture(resource);
         const sprite = Sprite.from(baseTexture);
+        sprite.position.set(position, position);
+        position += 200;
         app.stage.addChild(sprite);
+        ev.target.value = '';
       } catch (error) {
         console.error(error);
       }

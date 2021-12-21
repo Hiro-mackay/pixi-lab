@@ -10,8 +10,9 @@ export const useGenerateVideoResource = () => {
     videoElement.crossOrigin = 'anonymous';
     const refURL = URL.createObjectURL(file);
     videoElement.src = refURL;
+    videoElement.loop = true;
 
-    const resource = new VideoResource(videoElement, { autoPlay: false, autoLoad: false });
+    const resource = new VideoResource(videoElement, { autoPlay: true, autoLoad: false });
 
     return resource.load();
   }, []);
